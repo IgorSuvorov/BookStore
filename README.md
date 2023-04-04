@@ -1,5 +1,3 @@
 # BookStore
 Authors:
-Igor Suvorov
-Joshua Boggs
-Devin Ellis
+Igor Suvorov, Joshua Boggs, Devin Ellis
