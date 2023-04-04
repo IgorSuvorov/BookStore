@@ -8,5 +8,5 @@ public class PasswordChangeRequest {
     private String oldPassword;
     private String newPassword;
 
-    // Getters and Setters
+
 }

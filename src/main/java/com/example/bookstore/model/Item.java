@@ -30,5 +30,4 @@ public class Item {
     private String shippingOption2Name;
     private BigDecimal shippingOption2Price;
 
-    // Add getters and setters
 }
