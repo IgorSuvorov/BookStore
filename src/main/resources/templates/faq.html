@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1>FAQ</h1>
+
+<div th:each="entry : ${faqEntries}">
+    <h2 th:text="${entry.question}"></h2>
+    <p th:text="${entry.answer}"></p>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

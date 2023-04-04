@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1>My Orders</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Item</th>
+        <th>Shipping</th>
+        <th>Shipping Address</th>
+        <th>Billing Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.item.name}"></td>
+        <td th:text="${order.shipping}"></td>
+        <td th:text="${order.shippingAddress}"></td>
+        <td th:text="${order.billingAddress}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

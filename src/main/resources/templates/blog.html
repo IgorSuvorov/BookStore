@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1>Blog</h1>
+
+<div th:each="post : ${blogPosts}">
+    <h2 th:text="${post.title}"></h2>
+    <p th:text="${post.createdAt}"></p>
+    <div th:text="${post.content}"></div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</

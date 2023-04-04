@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1>Contact</h1>
+
+<form th:action="@{/contact}" th:object="${contactFormEntry}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" required />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" th:field="*{email}" required />
+    </div>
+    <div>
+        <label for="subject">Subject:</label>
+        <input type="text" th:field="*{subject}" required />
+    </div>
+    <div>
+        <label for="message">Message:</label>
+        <textarea th:field="*{message}" required></textarea>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1>Settings</h1>
+
+<form th:action="@{/settings}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" th:field="*{username}" readonly />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" th:field="*{email}" required />
+    </div>
+    <div>
+        <label for="phone">Phone:</label>
+        <input type="text" th:field="*{phone}" required />
+    </div>
+    <button type="submit">Update</button>
+</form>
+
+<div th:replace="fragments/footer :: footer
+"></div>
+</body>
+</html>
