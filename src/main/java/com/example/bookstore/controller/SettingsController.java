@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
+
 /**
  * @author Igor Suvorov
  */
@@ -26,8 +28,8 @@ public class SettingsController {
     private UserService userService;
 
     @GetMapping
-    public String getSettings(Principal principal, Model model) {
-        User user = userService.findByUsername(principal.getName());
+    public String getSettings(User user, Model model) {
+        Optional<User> rsl = userService.findByUsername(user.getUsername());
         model.addAttribute("user", user);
         return "settings/settings";
     }

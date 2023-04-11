@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 import com.example.bookstore.model.Item;
 import com.example.bookstore.model.Order;
+import com.example.bookstore.model.User;
 import com.example.bookstore.repository.ItemRepository;
 import com.example.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class MyOrdersController {
     private OrderService orderService;
 
     @GetMapping
-    public String getOrders(Principal principal, Model model) {
-        List<Order> orders = orderService.getOrdersByUser(principal.getName());
+    public String getOrders(User user, Model model) {
+        List<Order> orders = orderService.findByUser(user);
         model.addAttribute("orders", orders);
         return "orders/my-orders";
     }
