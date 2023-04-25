@@ -2,13 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>FAQ</title>
+    <title>Igor's Bookstore - FAQ</title>
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/jquery-3.6.3.min.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet"></link>
+    <link href="../Content/faqPage.css" rel="stylesheet"></link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet"></link>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
+<body id="faqBody">
 <div th:replace="fragments/menu :: menu"></div>
 
-<h1>FAQ</h1>
+<h1 id="bigTitle">Frequently Asked Questions</h1>
+<div id="question">
+    <h2 id="smallTitle">What are we?</h2>
+    <p id="text">We are Igor's Bookstore! Our founder, Igor Suvorov, decided in 2023. 
+        that humanity had grown dull, and needed to get back to its routes of literary research and entertainment!
+        So he decided to open a bookstore where you could find any novel, read any text, and buy any book!
+        With our excellent quality and quantity of literary achievements, you'll never need to stop at another bookstore again!
+    </p>
+</div>
+<div id="question">
+    <h2 id="smallTitle">How do I purchase a book?</h2>
+    <p id="text">Head over to our Items Page and you'll find any book you may need, as well as options for delivery!</p>
+
+</div>
+<div id="question">
+    <h2 id="smallTitle">Do you have "this book"?</h2>
+    <p id="text">Almost certainly! We also receive more books every week! Don't see the book
+        you were hoping for? Head over to our Contact Us page and tell us! We'll do our
+        personal best to find it and get it to you!
+    </p>
+</div>
+<div id="endPage">
+    <h2 id="smallTitle">Need more help?</h2>
+    <p id="text">Head over to our Contact Us page and tell us any help you may need!
+        We're more than happy to assist!
+    </p>
+</div>
 
 <div th:each="entry : ${faqEntries}">
     <h2 th:text="${entry.question}"></h2>
