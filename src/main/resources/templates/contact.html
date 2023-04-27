@@ -1,35 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Contact</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-</head>
-<body>
-<div th:replace="fragments/menu :: menu"></div>
-
-<h1>Contact</h1>
-
-<form th:action="@{/contact}" th:object="${contactFormEntry}" method="post">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" th:field="*{name}" required />
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" th:field="*{email}" required />
-    </div>
-    <div>
-        <label for="subject">Subject:</label>
-        <input type="text" th:field="*{subject}" required />
-    </div>
-    <div>
-        <label for="message">Message:</label>
-        <textarea th:field="*{message}" required></textarea>
-    </div>
-    <button type="submit">Submit</button>
-</form>
-
-<div th:replace="fragments/footer :: footer"></div>
-</body>
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta charset="UTF-8">
+            <title>Igor's Bookstore - Contact Us</title>
+            <script src="../Scripts/bootstrap.bundle.min.js"></script>
+            <script src="../Scripts/jquery-3.6.3.min.js"></script>
+            <link href="../Content/bootstrap.css" rel="stylesheet"></link>
+            <link href="../Content/contact.css" rel="stylesheet"></link>
+            <link href="../Content/font-awesome.min.css" rel="stylesheet"></link>
+            <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        </head>
+        <body id="contactBody">
+        <div th:replace="fragments/menu :: menu"></div>
+        
+        <h1 id="bigTitle">Contact Us</h1>
+        <div id="question">
+            <p id="text">Need Assistance?</p>
+            <p id="text">Call us at: 330-444-4454 and press #1 for English</p>
+            <p id="text">or</p>
+            <p id="text">Email us at: IgorsBookstore@gmail.com</p>
+            <p id="text">or fill out our form below!</p>
+        </div>
+        <div id="question">
+            <p id="text">¿Necesita ayuda?</p>
+            <p id="text">Llámenos al: 330-444-4454 y presione #2 para Español.</p>
+            <p id="text">o</p>
+            <p id="text">Escríbanos a: IgorsBookstoreEspañol@gmail.com</p>
+            <p id="text">¡O complete nuestro formulario a continuación!</p>
+        </div>
+        <div id="question">
+            <p id="text">Besoin d'assistance?</p>
+            <p id="text">Appelez-nous au 330-444-4454 et appuyez sur la touche #3 pour le Français.</p>
+            <p id="text">ou</p>
+            <p id="text">Envoyez-nous un email à: IgorsBookstoreFrançais@gmail.com</p>
+            <p id="text">ou remplissez notre formulaire ci-dessous!</p>
+        </div>
+        <form th:action="@{/contact}" th:object="${contactFormEntry}" method="post">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" th:field="*{name}" required />
+            </div>
+            <br>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" th:field="*{email}" required />
+            </div>
+            <br>
+            <div>
+                <label for="subject">Subject:</label>
+                <input type="text" th:field="*{subject}" required />
+            </div>
+            <br>
+            <div>
+                <label for="message">Message:</label>
+                <textarea rows="5" cols="40"th:field="*{message}" required ></textarea> <button id="submit" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+        
+        <div th:replace="fragments/footer :: footer"></div>
+        </body>
+    </html>
+    
 </html>
