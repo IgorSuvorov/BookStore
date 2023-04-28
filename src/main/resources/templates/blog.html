@@ -1,21 +1,77 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Blog</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <title>Login</title>
+    <!-- <link rel="stylesheet" th:href="@{/css/styles.css}" /> -->
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/jquery-3.6.3.min.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet">
+    </link>
+    <link href="../Content/site.css" rel="stylesheet">
+    </link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet">
+    </link>
 </head>
-<body>
 <div th:replace="fragments/menu :: menu"></div>
 
-<h1>Blog</h1>
+<body>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-title text-center border-bottom">
+                        <h2 class="p-3">Blog</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="col">
+                            <div th:each="post : ${blogPosts}">
+                                <h2 th:text="${post.title}"></h2>
+                                <p th:text="${post.createdAt}"></p>
+                                <div th:text="${post.content}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div th:each="post : ${blogPosts}">
-    <h2 th:text="${post.title}"></h2>
-    <p th:text="${post.createdAt}"></p>
-    <div th:text="${post.content}"></div>
-</div>
+    <div th:replace="fragments/footer :: footer"></div>
 
-<div th:replace="fragments/footer :: footer"></div>
+    <script type="text/javascript">
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
-</

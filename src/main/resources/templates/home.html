@@ -1,4 +1,6 @@
-<div th:replace="fragments/menu :: menu"></div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,69 +10,93 @@
     <script src="../Scripts/bootstrap.bundle.min.js"></script>
     <script src="../Scripts/jquery-3.6.3.min.js"></script>
     <link href="../Content/bootstrap.css" rel="stylesheet"></link>
-    <link href="../Content/homePage.css" rel="stylesheet"></link>
+    <link href="../Content/site.css" rel="stylesheet">
     <link href="../Content/font-awesome.min.css" rel="stylesheet"></link>
 </head>
-<div class="container">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h1 id="homeTitle"><img src="../Content/Images/book2.png" alt="bookPic">Igor's Bookstore<img src="../Content/Images/book2.png" alt="bookPic"></h1>
-        <h2 id="smallTitle">For all your literary needs!</h2>
-      </div>
-    </div>
-  </div>
-<body id="homeBody">
-<div class="container">
-  <div class="row align-items-center justify-content-end">
-    <div class="col-md-6">
-      <div id="ourFounder" class="d-flex flex-column align-items-center">
-        <div id="igorBackground"><img src="../Content/Images/igor3.png" alt="igorPic"></div>
-              <p id="smallerTitle">Igor Suvorov, Our Founder!</p>
-          </div>
-        </div>
-      </div>
-    <div class="row align-items-center justify-content-start">
-      <div class="col-md-6">
-        <div id="latestAdditions" class="d-flex flex-column align-items-center">
-            <p id="smallTitle">Latest Additions:</p>
-            <div id="textBox">
-                <p>This week we received new editions of every Harry Potter Books!
-                    We know you muggles have been struggling to geet a copy at your local library due to 
-                    high demand, but we've got your back! 
-                </p>
-                <p></p>
-                <p>We've also received the following:</p>
-                <p></p>
-                <p>The Outsiders by S.E. Hinton</p>
-                <p></p>
-                <p>The Percy Jackson and the Olypmpians Saga by Rick Riordan</p>
-                <p></p>
-                <p>Moby Dick by Herman Melville</p>
-                <p></p>
-                <p>The Tale of Two Cities by Charles Dickens</p>
-                <p></p>
-                <p>And more!</p>
+
+<body>
+    <div th:replace="fragments/menu :: menu"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="text-primary" id="homeTitle"><img src="../Content/Images/book2.png" alt="bookPic">Igor's Bookstore<img src="../Content/Images/book2.png" alt="bookPic"></h1>
+                <h2 class="text-primary" id="smallTitle">For all your literary needs!</h2>
             </div>
         </div>
-      </div>
-    </div>
-    <div class="row align-items-center justify-content-end">
-      <div class="col-md-6">
-        <div id="ourReviews" class="d-flex flex-column align-items-center">
-          <p id="smallTitle">Our Reviews!</p>
-          <div id="textBox">
-            <p>"Igor's Bookstore always has just what books my child needs and gets them to us quickly and in pristine condition!" - Hannah Toppy</p>
-            <p></p>
-            <p>"Igor's Subscription Service was such a good deal I had to get back into reading again, I feel more intelligent than I have in years!" - Billy Silly</p>
-            <p></p>
-            <p>"Good books." - Doug</p>
-          </div>
+        <div class="row align-items-center justify-content-end">
+            <div class="col-md-6">
+                <div id="ourFounder" class="d-flex flex-column align-items-center">
+                    <div class="card shadow"><img src="../Content/Images/igor3.png" alt="igorPic"></div>
+                    <p class="text-primary fw-bold" id="smallerTitle">Igor Suvorov, Our Founder!</p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="row align-items-center justify-content-start">
+            <div class="col-md-6">
+                <div id="latestAdditions" class="text-center">
+                    <p class="text-primary fw-bold" id="smallTitle">Latest Additions:</p>
+                    <div class="card shadow" id="textBox">
+                        <p>
+                            This week we received new editions of every Harry Potter Books!
+                            We know you muggles have been struggling to geet a copy at your local library due to
+                            high demand, but we've got your back!
+                        </p>
+                        <p>We've also received the following:</p>
+                        <p>The Outsiders by S.E. Hinton</p>
+                        <p>The Percy Jackson and the Olypmpians Saga by Rick Riordan</p>
+                        <p>Moby Dick by Herman Melville</p>
+                        <p>The Tale of Two Cities by Charles Dickens</p>
+                        <p>And more!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-5 text-center">
+                <p class="text-primary fw-bold" id="smallTitle">Our Reviews!</p>
+                <div class="card shadow" id="textBox">
+                    <p>"Igor's Bookstore always has just what books my child needs and gets them to us quickly and in pristine condition!" - Hannah Toppy</p>
+                    <p>"Igor's Subscription Service was such a good deal I had to get back into reading again, I feel more intelligent than I have in years!" - Billy Silly</p>
+                    <p>"Good books." - Doug</p>
+                </div>
+            </div>
+        </div>
     </div>
-    
-      
-  </div>
-</div>
+    <div th:replace="fragments/footer :: footer"></div>
+    <script type="text/javascript">
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
-<div th:replace="fragments/footer :: footer"></div>
+</html>

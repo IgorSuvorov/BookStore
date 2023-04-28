@@ -1,27 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet">
+    </link>
+    <link href="../Content/site.css" rel="stylesheet">
+    </link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet">
+    </link>
 </head>
+
 <body>
-<div th:replace="fragments/menu :: menu"></div>
+    <div th:replace="fragments/menu :: menu"></div>
 
-<h1>Register</h1>
+    <div class="container body-content">
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card shadow">
+                    <div class="card-title text-center border-bottom">
+                        <h2 class="p-3">Register</h2>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/register}" th:object="${user}" method="post">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="username">Username:</label>
+                                <input class="form-control" type="text" th:field="*{username}" required />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="password">Password:</label>
+                                <input class="form-control" type="password" th:field="*{password}" required />
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" th:field="*{username}" required />
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" th:field="*{password}" required />
-    </div>
-    <button type="submit">Register</button>
-</form>
 
-<div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
+    <script type="text/javascript">
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
+
 </html>

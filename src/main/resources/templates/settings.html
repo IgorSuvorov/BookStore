@@ -1,33 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Settings</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- <link rel="stylesheet" th:href="@{/css/styles.css}" /> -->
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/jquery-3.6.3.min.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet">
+    </link>
+    <link href="../Content/site.css" rel="stylesheet">
+    </link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet">
 </head>
+
 <body>
-<div th:replace="fragments/menu :: menu"></div>
+    <div th:replace="fragments/menu :: menu"></div>
 
-<h1>Settings</h1>
+    <div class="container body-content">
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card shadow">
+                    <div class="card-title text-center border-bottom">
+                        <h2 class="p-3">Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/settings}" th:object="${user}" method="post">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="username">Username:</label>
+                                <input class="form-control" type="text" th:field="*{username}" readonly />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="email">Email:</label>
+                                <input class="form-control" type="email" th:field="*{email}" required />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="phone">Phone:</label>
+                                <input class="form-control" type="text" th:field="*{phone}" required />
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
 
-<form th:action="@{/settings}" th:object="${user}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" th:field="*{username}" readonly />
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" th:field="*{email}" required />
-    </div>
-    <div>
-        <label for="phone">Phone:</label>
-        <input type="text" th:field="*{phone}" required />
-    </div>
-    <button type="submit">Update</button>
-</form>
+    <script type="text/javascript">
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
 
-<div th:replace="fragments/footer :: footer
-"></div>
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
+
 </html>

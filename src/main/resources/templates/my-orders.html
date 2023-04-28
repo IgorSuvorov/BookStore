@@ -1,36 +1,107 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>My Orders</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/jquery.dataTables.min.js"></script>
+    <script src="../Scripts/dataTables.bootstrap5.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet">
+    </link>
+    <link href="../Content/site.css" rel="stylesheet">
+    </link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet">
+    </link>
+    <link href="../Content/dataTables.bootstrap5.css" rel="stylesheet">
+    </link>
 </head>
+
 <body>
-<div th:replace="fragments/menu :: menu"></div>
+    <div th:replace="fragments/menu :: menu"></div>
 
-<h1>My Orders</h1>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col">
+                <h1>My Orders</h1>
+                <table id="table" class="table table-striped table-bordered table-hover nowrap no-footer dt-center"
+                       width="100%">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Item</th>
+                            <th>Shipping</th>
+                            <th>Shipping Address</th>
+                            <th>Billing Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.item.name}"></td>
+                            <td th:text="${order.shipping}"></td>
+                            <td th:text="${order.shippingAddress}"></td>
+                            <td th:text="${order.billingAddress}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Order ID</th>
-        <th>Item</th>
-        <th>Shipping</th>
-        <th>Shipping Address</th>
-        <th>Billing Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.item.name}"></td>
-        <td th:text="${order.shipping}"></td>
-        <td th:text="${order.shippingAddress}"></td>
-        <td th:text="${order.billingAddress}"></td>
-    </tr>
-    </tbody>
-</table>
+    <div th:replace="fragments/footer :: footer"></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            table = $('#table').DataTable({
+                "order": [[0, "desc"]],
+                "scrollY": '500px',
+                "scrollX": true,
+                "scrollCollapse": true,
+                "columnDefs": [
+                    { "className": "dt-center", "targets": "_all" }
+                ],
+                "paging": true,
+                "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]],
+            });
+        });
 
-<div th:replace="fragments/footer :: footer"></div>
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
+
 </html>
