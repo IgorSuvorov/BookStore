@@ -1,36 +1,459 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Items</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bookstore</title>
+
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/jquery-3.6.3.min.js"></script>
+    <link href="../Content/bootstrap.css" rel="stylesheet">
+    </link>
+    <link href="../Content/Site.css" rel="stylesheet">
+    </link>
+    <link href="../Content/font-awesome.min.css" rel="stylesheet">
+    </link>
 </head>
+
 <body>
-<div th:replace="fragments/menu :: menu"></div>
 
-<h1>Items</h1>
+    <div th:replace="fragments/menu :: menu"></div>
 
-<div th:each="item : ${items}">
-    <h2 th:text="${item.name}"></h2>
-    <p th:text="${item.description}"></p>
-    <form th:action="@{/items/order}" method="post">
-        <input type="hidden" th:value="${item.id}" name="itemId" />
-        <div>
-            <label><input type="radio" name="shipping" th:value="${item.shippingOption1Name + ' - ' + item.shippingOption1Price}" />Standard Shipping: <span th:text="${item.shippingOption1Price}"></span></label>
-            <label><input type="radio" name="shipping" th:value="${item.shippingOption2Name + ' - ' + item.shippingOption2Price}" />Express Shipping: <span th:text="${item.shippingOption2Price}"></span></label>
-        </div>
-        <div>
-            <label for="shippingAddress">Shipping Address:</label>
-            <input type="text" name="shippingAddress" required />
-        </div>
-        <div>
-            <label for="billingAddress">Billing Address:</label>
-            <input type="text" name="billingAddress" required />
-        </div>
-        <button type="submit">Order</button>
-    </form>
-</div>
+    <!-- <h1>Items</h1>
 
-<div th:replace="fragments/footer :: footer"></div>
+    <div th:each="item : ${items}">
+        <h2 th:text="${item.name}"></h2>
+        <p th:text="${item.description}"></p>
+        <form th:action="@{/items/order}" method="post">
+            <input type="hidden" th:value="${item.id}" name="itemId" />
+            <div>
+                <label><input type="radio" name="shipping"
+                        th:value="${item.shippingOption1Name + ' - ' + item.shippingOption1Price}" />Standard Shipping:
+                    <span th:text="${item.shippingOption1Price}"></span></label>
+                <label><input type="radio" name="shipping"
+                        th:value="${item.shippingOption2Name + ' - ' + item.shippingOption2Price}" />Express Shipping:
+                    <span th:text="${item.shippingOption2Price}"></span></label>
+            </div>
+            <div>
+                <label for="shippingAddress">Shipping Address:</label>
+                <input type="text" name="shippingAddress" required />
+            </div>
+            <div>
+                <label for="billingAddress">Billing Address:</label>
+                <input type="text" name="billingAddress" required />
+            </div>
+            <button type="submit">Order</button>
+        </form>
+    </div> -->
+
+    <section id="purchaseModal" class="modal fade container-fluid" role="dialog" tabindex="-1" role="dialog"
+             aria-labelledby="purchaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="logo" role="primary" aria-label="logo">
+                        <h2 class="modal-title" id="loginModalLabel">Purchase</h2>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <h2 th:text="${item.name}"></h2>
+                    <p th:text="${item.description}"></p>
+                    <form th:action="@{/items/order}" method="post">
+                        <input type="hidden" th:value="${item.id}" name="itemId" />
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shipping"
+                                   th:value="${item.shippingOption1Name + ' - ' + item.shippingOption1Price}" />
+                            <label class="form-check-label">Standard Shipping:</label>
+                            <span th:text="${item.shippingOption1Price}"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="shipping"
+                                   th:value="${item.shippingOption2Name + ' - ' + item.shippingOption2Price}" />
+                            <label class="form-check-label">Express Shipping:</label>
+                            <span th:text="${item.shippingOption2Price}"></span>
+                        </div>
+                        <div class="col">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="shippingAddress">Shipping Address:</label>
+                                <input class="form-control" type="text" name="shippingAddress" required />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="billingAddress">Billing Address:</label>
+                                <input class="form-control" type="text" name="billingAddress" required />
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit">Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <h2 class="text-center text-primary">Bestsellers</h2>
+                </div>
+                <hr>
+                <section class="container-fluid">
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center">
+                                <img class="p-2" src="../Content/Images/CleanCode.jpg" alt="clean code" />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>Clean Code</h4>
+                                    <h6>Robert C. Martin</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 40.55</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1"
+                                                data-toggle="modal" data-target="#purchaseModal">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/FrontendArchitecture.jpg "
+                                     alt="Frontend Architecture " />
+                            </div>
+                            <div class="d-flex flex-column info_book justify-content-center p-2">
+                                <div>
+                                    <h4>Frontend Architecture</h4>
+                                    <h6>Micah Godbolt</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-muted text-right my-0">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 27.21</p>
+                                        </div>
+                                        <button type="button" class="purchaseBtn btn btn-sm btn-outline-info ml-1">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1 each_book">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/ResponsiveWeb.jpg "
+                                     alt="Responsive Web Design " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2">
+                                <div>
+                                    <h4>Responsive Web Design</h4>
+                                    <h6>Ben Frain</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-muted text-right my-0">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 39.99</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <section id="readers" class="row justify-content-center">
+                    <hr>
+                    <div class="col-12 col-sm-3 col-md-3 text-center mt-5 mb-4">
+                        <h2 class="text-primary">Readers</h2>
+                    </div>
+                    <hr>
+                </section>
+                <section class="container-fluid">
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center">
+                                <img class="p-2 " src="../Content/Images/JavaScript.jpg " alt="Javascript " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>JavaScript: The Definitive Guide</h4>
+                                    <h6>David Flanagan</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 43.45</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/DontMakeMeThink.jpg "
+                                     alt="Don´t make me think " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>Don´t make me think</h4>
+                                    <h6>Steve Krug</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Paperback
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 16.20</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/RoadToReact.jpg " alt="The Road To React " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>The Road To React</h4>
+                                    <h6>Robin Wieruch</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Paperback
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 27.65</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <section id="promotions" class="row justify-content-center">
+                    <hr>
+                    <div class="col-12 col-sm-3 col-md-3 text-center mt-5 mb-4 ">
+                        <h2 class="text-primary">Promotions</h2>
+                    </div>
+                    <hr>
+                </section>
+                <section class="container-fluid">
+                    <div class="d-flex flex-wrap justify-content-center ">
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/WebDevelopmentNodeExpress.jpg "
+                                     alt="Web Development " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>Web Development-Node Express</h4>
+                                    <h6>Ethan Brown</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 32.99</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="p-2 " src="../Content/Images/Web DevelopmentDesignHTML5.jpg"
+                                     alt="Web Development & Design " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>Web Development & Design</h4>
+                                    <h6>Terry Felke Morris</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Hardcover
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 35.36</p>
+                                        </div>
+                                        <button type="button " class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="d-flex flex-column mx-1 my-1">
+                            <div class="text-center ">
+                                <img class="height_image p-2 " src="../Content/Images/SVGAnimations.jpg "
+                                     alt="SVG Animations " />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center p-2 ">
+                                <div>
+                                    <h4>SVG Animations</h4>
+                                    <h6>Sarah Drasner</h6>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between ">
+                                        <p class="text-muted text-right my-0 ">
+                                            Paperback
+                                        </p>
+                                        <div class="align-self-center ">
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                            <i class="fa fa-star fa-lg "></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-right my-0 ">$ 27.66</p>
+                                        </div>
+                                        <button type="button" class="purchaseBtn btn btn-sm btn-outline-info ml-1 ">
+                                            <i class="fa fa-shopping-cart " aria-hidden="true "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script type="text/javascript">
+        $(document).on('click', '.purchaseBtn', function () {
+            $('#purchaseModal').modal("show");
+        });
+
+
+        (() => {
+            'use strict'
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+
+            setTheme(getPreferredTheme())
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                        })
+                    })
+            })
+        })()
+    </script>
 </body>
+
 </html>
